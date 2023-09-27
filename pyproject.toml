@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "random-recipes"
+version = "0.0.0"
+description = "Recipes to generate random instances of various types, beyond the scope of random."
+authors = ["Ian Pearthree <52967928+ipear3@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
