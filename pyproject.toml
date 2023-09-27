@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "random-recipes"
-version = "0.0.0"
+version = "0.0.1"
 description = "Recipes to generate random instances of various types, beyond the scope of random."
 authors = ["Ian Pearthree <52967928+ipear3@users.noreply.github.com>"]
 readme = "README.md"
