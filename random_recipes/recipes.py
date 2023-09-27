@@ -10,7 +10,7 @@ def random_decimal(whole_digits: int = 1, decimal_digits: int = 40):
 
     Each digit is a random digit, 0-9, except the last digit, which cannot be 0."""
     whole_str = "".join(str(d) for d in random.choices(digits, k=whole_digits))
-    decimal_str = "".join([str(d) for d in random.choices(digits, k=decimal_digits)])
+    decimal_str = "".join(str(d) for d in random.choices(digits, k=decimal_digits))
     return Decimal(f"{whole_str}.{decimal_str}")
 
 
