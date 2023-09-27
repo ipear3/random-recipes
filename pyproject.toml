@@ -2,8 +2,11 @@
 name = "random-recipes"
 version = "0.0.1"
 description = "Recipes to generate random instances of various types, beyond the scope of random."
+license = "MIT"
 authors = ["Ian Pearthree <52967928+ipear3@users.noreply.github.com>"]
 readme = "README.md"
+repository = "https://github.com/ipear3/random-recipes"
+keywords = ["random"]
 
 [tool.poetry.dependencies]
 python = "^3.11"

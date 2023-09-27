@@ -1,5 +1,8 @@
 # Random Recipes
 
+[![pypi](https://img.shields.io/pypi/v/random-recipes)](https://pypi.org/project/random-recipes/#history)
+[![downloads](https://img.shields.io/pypi/dm/random-recipes)](https://pypistats.org/packages/random-recipes)
+
 Recipes to generate random instances of various types, beyond the scope of [random](https://docs.python.org/3/library/random.html).
 
 Python's [random](https://docs.python.org/3/library/random.html) implements generators for pseudo-random bytes, integers, and sequences.
