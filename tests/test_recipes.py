@@ -1,17 +1,45 @@
-from random_recipes import Decimal, date, datetime, random_decimal, random_date, random_datetime
+from random_recipes import *
 
 
-def test_random_decimal_is_decimal():
-    """Assert that `random_decimal()` returns an instance of :class:`Decimal`"""
-    assert isinstance(random_decimal(), Decimal)
+class TestRandomBool:
+    def test_random_bool_is_bool(self):
+        assert isinstance(random_bool(), bool)
 
 
-def test_random_date_is_date():
-    """Assert that `random_date()` returns an instance of :class:`date`"""
-    assert isinstance(random_date(), date)
+class TestRandomDecimal:
+    def test_random_decimal_is_decimal(self):
+        assert isinstance(random_decimal(), Decimal)
+
+    def test_random_decimal_is_less_than_1_if_precision_eq_scale(self):
+        assert random_decimal(scale=2, precision=2) < 1
+
+    def test_random_decimal_is_given_scale(self):
+        scale = 3
+        assert len(str(random_decimal(scale=scale)).split(".")[1]) == scale
+
+    def test_random_decimal_is_given_precision(self):
+        precision = 3
+        decimal_str = str(random_decimal(precision=precision))
+        assert (
+            len(decimal_str) == precision + 1 + 1 if decimal_str.startswith("0") else 0
+        )
 
 
-def test_random_datetime_is_datetime():
-    """Assert that `random_datetime()` returns an instance of :class:`datetime`"""
-    assert isinstance(random_datetime(), datetime)
+class TestRandomDate:
+    def test_random_date_is_date(self):
+        assert isinstance(random_date(), date)
 
+
+class TestRandomDatetime:
+    def test_random_datetime_is_datetime(self):
+        assert isinstance(random_datetime(), datetime)
+
+
+class TestRandomFloat:
+    def test_random_float_is_float(self):
+        assert isinstance(random_float(), float)
+
+
+class TestRandomStr:
+    def test_random_str_is_str(self):
+        assert isinstance(random_str(), str)
