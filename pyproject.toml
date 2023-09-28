@@ -5,6 +5,7 @@ description = "Recipes to generate random instances of various types, beyond the
 license = "MIT"
 authors = ["Ian Pearthree <52967928+ipear3@users.noreply.github.com>"]
 readme = "README.md"
+homepage = "https://pypi.org/project/random-recipes/"
 repository = "https://github.com/ipear3/random-recipes"
 keywords = ["random"]
 
