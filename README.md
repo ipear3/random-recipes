@@ -10,14 +10,16 @@ In [random-recipes](https://github.com/ipear3/random-recipes) we collect additio
 
 ## Recipes
 
-| Type                                                                                  | Function          |
-|---------------------------------------------------------------------------------------|-------------------|
-| [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values)                | `random_bool`     |
-| [decimal.Decimal](https://docs.python.org/3/library/decimal.html)                     | `random_decimal`  |
-| [datetime.date](https://docs.python.org/3/library/datetime.html#date-objects)         | `random_date`     |
-| [datetime.datetime](https://docs.python.org/3/library/datetime.html#datetime-objects) | `random_datetime` |
-| [float](https://docs.python.org/3/library/functions.html#float)                       | `random_float`    |
-| [str](https://docs.python.org/3/library/stdtypes.html#str)                            | `random_str`      |
+| Type                                                                                   | Function          |
+|----------------------------------------------------------------------------------------|-------------------|
+| [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values)                 | `random_bool`     |
+| [bytes](https://docs.python.org/3/library/stdtypes.html?highlight=bytes#bytes-objects) | `random_bytes`    |
+| [decimal.Decimal](https://docs.python.org/3/library/decimal.html)                      | `random_decimal`  |
+| [datetime.date](https://docs.python.org/3/library/datetime.html#date-objects)          | `random_date`     |
+| [datetime.datetime](https://docs.python.org/3/library/datetime.html#datetime-objects)  | `random_datetime` |
+| [float](https://docs.python.org/3/library/functions.html#float)                        | `random_float`    |
+| [fraction](https://docs.python.org/3/library/fractions.html#fractions.Fraction)        | `random_fraction` |
+| [str](https://docs.python.org/3/library/stdtypes.html#str)                             | `random_str`      |
 
 ## Development
 

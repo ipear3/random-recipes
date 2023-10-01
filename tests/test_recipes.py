@@ -6,6 +6,11 @@ class TestRandomBool:
         assert isinstance(random_bool(), bool)
 
 
+class TestRandomBytes:
+    def test_random_bytes_is_bytes(self):
+        assert isinstance(random_bytes(), bytes)
+
+
 class TestRandomDecimal:
     def test_random_decimal_is_decimal(self):
         assert isinstance(random_decimal(), Decimal)
@@ -38,6 +43,11 @@ class TestRandomDatetime:
 class TestRandomFloat:
     def test_random_float_is_float(self):
         assert isinstance(random_float(), float)
+
+
+class TestRandomFraction:
+    def test_random_fraction_is_fraction(self):
+        assert isinstance(random_fraction(), fractions.Fraction)
 
 
 class TestRandomStr:

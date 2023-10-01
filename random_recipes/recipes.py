@@ -8,12 +8,17 @@ import random
 import fractions
 
 
-def random_bool():
+def random_bool() -> bool:
     """Return a random :class:`bool`."""
     return random.choice((False, True))
 
 
-def random_decimal(scale: int = 40, precision: int = None):
+def random_bytes(n: int = 1) -> bytes:
+    """Generate n random :class:`bytes`. Alias of `random.randbytes`."""
+    return random.randbytes(n=n)
+
+
+def random_decimal(scale: int = 40, precision: int = None) -> Decimal:
     """Return a random :class:`Decimal` number `precision` digits in length.
 
     Arguments:
@@ -33,7 +38,7 @@ def random_decimal(scale: int = 40, precision: int = None):
     return Decimal(f"{int_digits}.{first_decimal_digits}{last_decimal_digit}")
 
 
-def random_date(_min: date = date.min, _max: date = date.max):
+def random_date(_min: date = date.min, _max: date = date.max) -> date:
     """Return a random :class:`date` between `_min` and `_max`."""
     return _min + random.random() * (_max - _min)
 
@@ -41,12 +46,12 @@ def random_date(_min: date = date.min, _max: date = date.max):
 def random_datetime(
     _min: datetime = datetime.min,
     _max: datetime = datetime.max,
-):
+) -> datetime:
     """Return a random :class:`datetime` between `_min` and `_max`."""
     return _min + random.random() * (_max - _min)
 
 
-def random_float(float_digits: int = 40, int_min: int = 0, int_max: int = 0):
+def random_float(float_digits: int = 40, int_min: int = 0, int_max: int = 0) -> float:
     """Return a random :class:`float` number `k` digits in length.
 
     Each digit is a random digit, 0-9, except the last digit, which is random 1-9.
@@ -56,12 +61,21 @@ def random_float(float_digits: int = 40, int_min: int = 0, int_max: int = 0):
     )
 
 
+def random_fraction(
+    num_min: int = 0, num_max: int = 1, den_min: int = 1, den_max: int = 2
+) -> fractions.Fraction:
+    """Return a random :class:`fractions.Fraction`."""
+    return fractions.Fraction(
+        random.randint(num_min, num_max), random.randint(den_min, den_max)
+    )
+
+
 def random_str(
     characters: collections.abc.Sequence = string.printable,
     relative_weights: collections.abc.Sequence[float | fractions.Fraction] = None,
     cumulative_weights: collections.abc.Sequence[float | fractions.Fraction] = None,
     k: int = 1,
-):
+) -> str:
     """Return a random :class:`str` with `k` `characters` chosen.
 
     Nearly an alias of `random.choices()` - elements are chosen from characters with replacement.
