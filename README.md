@@ -51,8 +51,7 @@ The release action is defined in [release.yml](https://github.com/ipear3/random-
 
 #### Tags
 
-Commits are automatically tagged like `*.*.*` any time a new project version in [pyproject.toml](pyproject.toml) is committed, thanks to the `git-tag` pre-commit hook.
-The tag pre-commit hook is defined in [.pre-commit-config.yaml](.pre-commit-config.yaml).
+Commits tagged like `*.*.*` are the trigger of releases.
 
 ### Standards
 
