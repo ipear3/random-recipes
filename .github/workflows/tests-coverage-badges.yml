@@ -2,7 +2,11 @@ name: Tests, Coverage, and Badges
 
 on:
   push:
+    branches-ignore:
+      # Ignore the following branches because they're protected from merges that haven't already passed this workflow during a pull request.
+      - main
     paths-ignore:
+      # Ignore the following paths because they're pushed by this workflow.
       - images/badges/tests.svg
       - images/badges/coverage.svg
 
