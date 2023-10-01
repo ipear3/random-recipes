@@ -51,7 +51,7 @@ The release action is defined in [release.yml](https://github.com/ipear3/random-
 
 #### Tags
 
-Commits tagged like `*.*.*` are the trigger of releases.
+Commits tagged like `*.*.*` are the trigger of releases. Eventually, we'd like to automate such tags.
 
 ### Standards
 
