@@ -13,3 +13,8 @@ dist/
 # IDE files
 .idea/
 .DS_Store
+
+# Reports
+.coverage
+reports/coverage.xml
+reports/tests.xml
