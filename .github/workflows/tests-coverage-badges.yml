@@ -61,17 +61,27 @@ jobs:
         run: poetry run pytest
 
       - name: Run pytest via coverage
-        run: poetry run coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml && poetry run coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
+        run: |
+          poetry run coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml
+          poetry run coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
 
       - name: Generate badges
-        run: poetry run genbadge tests -i reports/tests.xml -o images/badges/tests.svg & poetry run genbadge coverage -i reports/coverage.xml -o images/badges/coverage.svg
+        run: |
+          poetry run genbadge tests -i reports/tests.xml -o images/badges/tests.svg
+          poetry run genbadge coverage -i reports/coverage.xml -o images/badges/coverage.svg
 
-      - name: Commit badges to repo
+      - name: Configure git
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+
+      - name: Generate badges and add to git
+        run: |
           git add images/badges/tests.svg
           git add images/badges/coverage.svg
+
+      - name: Commit and push or do nothing
+        run: |
           if ! git diff-index --quiet HEAD; then
             git commit -m "Create badges for tests and coverage"
             git push
