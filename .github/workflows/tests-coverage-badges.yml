@@ -1,0 +1,36 @@
+name: Tests, Coverage, and Badges
+
+on:
+  push:
+
+jobs:
+  tests-coverage-badges:
+    name: Tests, Coverage, and Badges
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11.5"
+
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python - -y
+
+      - name: Install project
+        run: poetry install --with dev
+
+      - name: Run pytest
+        run: poetry run pytest
+
+      - name: Run pytest via coverage
+        run: coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml && \
+          coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
+
+      - name: Generate badges
+        run: genbadge tests -i reports/tests.xml -o images/badges/tests.svg; \
+          genbadge coverage -i reports/coverage.xml -o images/badges/coverage.svg;
+
+
