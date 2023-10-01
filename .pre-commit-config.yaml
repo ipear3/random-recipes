@@ -1,0 +1,23 @@
+# See https://pre-commit.com for more information
+repos:
+  # [Black Formatter](https://black.readthedocs.io/en/stable/integrations/source_version_control.html)
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 23.9.1
+    hooks:
+    -   id: black
+# [Poetry](https://python-poetry.org/docs/master/pre-commit-hooks/)
+  - repo: https://github.com/python-poetry/poetry
+    rev: 1.6.0
+    hooks:
+    -   id: poetry-check
+    -   id: poetry-lock
+  - repo: local
+    hooks:
+        - id: pytest-check
+          name: pytest-check
+          entry: poetry run pytest
+          language: system
+          pass_filenames: false
+          always_run: true
+default_language_version:
+  python: python3.11

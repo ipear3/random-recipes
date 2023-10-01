@@ -12,12 +12,11 @@ keywords = ["random"]
 [tool.poetry.dependencies]
 python = "^3.11"
 
-
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.2"
 
-
-[tool.poetry.group.format.dependencies]
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.4.0"
 black = "^23.9.1"
 
 [build-system]
