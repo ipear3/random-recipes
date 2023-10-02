@@ -57,9 +57,6 @@ jobs:
       - name: Install project
         run: poetry install --with dev
 
-      - name: Run pytest
-        run: poetry run pytest
-
       - name: Run pytest via coverage
         run: |
           poetry run coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml
