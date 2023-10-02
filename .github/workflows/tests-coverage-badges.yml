@@ -67,13 +67,31 @@ jobs:
           poetry run genbadge tests -i reports/tests.xml -o images/badges/tests.svg
           poetry run genbadge coverage -i reports/coverage.xml -o images/badges/coverage.svg
 
-      - name: Configure git, add reports and images, and commit or do nothing if no diff.
+      - name: Configure git
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+
+      - name: Add reports and images to commit
+        run: |
           git add reports/
           git add images/
+
+      - name: Dry-run poetry version patch if project version <= git tag
+        run: |
+          printf '%s\n' "$(poetry version --short)" "$(git tag -l --sort -version:refname | head -n 1)" | sort -C -V &&
+          echo "Yes, bump project version to $(poetry version patch --short --dry-run) or run 'poetry version patch'. Project version $(poetry version --short) <= git tag $(git tag -l --sort -version:refname | head -n 1)." ||
+          echo "No, project version has been bumped. Project version $(poetry version --short) > git tag $(git tag -l --sort -version:refname | head -n 1)."
+
+      - name: Dry-run git tag if project version > tag.
+        run: |
+          printf '%s\n' "$(poetry version --short)" "$(git tag -l --sort -version:refname | head -n 1)" | sort -C -V &&
+          echo "yes, bump git tag" ||
+          echo "no, git tag > remote"
+
+      - name: Commit if diff
+        run: |
           if ! git diff-index --quiet HEAD; then
-            git commit -m "Create badges for tests and coverage"
+            git commit -m "Create reports and badges for tests and coverage"
             git push
           fi
