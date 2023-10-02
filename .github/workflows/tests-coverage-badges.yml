@@ -70,18 +70,12 @@ jobs:
           poetry run genbadge tests -i reports/tests.xml -o images/badges/tests.svg
           poetry run genbadge coverage -i reports/coverage.xml -o images/badges/coverage.svg
 
-      - name: Configure git
+      - name: Configure git, add reports and images, and commit or do nothing if no diff.
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-
-      - name: Generate badges and add to git
-        run: |
-          git add images/badges/tests.svg
-          git add images/badges/coverage.svg
-
-      - name: Commit and push or do nothing
-        run: |
+          git add reports/
+          git add images/
           if ! git diff-index --quiet HEAD; then
             git commit -m "Create badges for tests and coverage"
             git push
