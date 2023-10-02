@@ -67,6 +67,15 @@ jobs:
           poetry run genbadge tests -i reports/tests.xml -o images/badges/tests.svg
           poetry run genbadge coverage -i reports/coverage.xml -o images/badges/coverage.svg
 
+      - name: Define functions
+        run: |
+          verlte() {
+              [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+          }
+          verlt() {
+              [ "$1" = "$2" ] && return 1 || verlte $1 $2
+          }
+
       - name: Configure git
         run: |
           git config user.name github-actions
@@ -77,21 +86,31 @@ jobs:
           git add reports/
           git add images/
 
-      - name: Dry-run poetry version patch if project version <= git tag
-        run: |
-          printf '%s\n' "$(poetry version --short)" "$(git tag -l --sort -version:refname | head -n 1)" | sort -C -V &&
-          echo "Yes, bump project version to $(poetry version patch --short --dry-run) or run 'poetry version patch'. Project version $(poetry version --short) <= git tag $(git tag -l --sort -version:refname | head -n 1)." ||
-          echo "No, project version has been bumped. Project version $(poetry version --short) > git tag $(git tag -l --sort -version:refname | head -n 1)."
+#      - name: Dry-run poetry version patch if project version <= git tag AND FILES WERE MODIFIED
+#        run: |
+#          printf '%s\n' "$(poetry version --short)" "$(git tag -l --sort -version:refname | head -n 1)" | sort -C -V &&
+#          echo "Yes, bump project version to $(poetry version patch --short --dry-run) or run 'poetry version patch'. Project version $(poetry version --short) <= git tag $(git tag -l --sort -version:refname | head -n 1)." ||
+#          echo "No, project version has been bumped. Project version $(poetry version --short) > git tag $(git tag -l --sort -version:refname | head -n 1)."
 
-      - name: Dry-run git tag if project version > tag.
+      - name: Dry-run git tag if the tag is less than project version.
         run: |
-          printf '%s\n' "$(poetry version --short)" "$(git tag -l --sort -version:refname | head -n 1)" | sort -C -V &&
-          echo "yes, bump git tag" ||
-          echo "no, git tag > remote"
+          verlt $(git tag -l --sort -version:refname | head -n 1) $(poetry version --short) &&
+          echo "Yes, tag as $(poetry version --short). Tag $(git tag -l --sort -version:refname | head -n 1) <= Project version $(poetry version --short)." ||
+          echo "No, do not tag. Tag $(git tag -l --sort -version:refname | head -n 1) >= Project version $(poetry version --short)."
+
+#      - name: Tag with the newer project version
+#        run: |
+#          verlt $(git tag -l --sort -version:refname | head -n 1) $(poetry version --short) &&
+#          git tag $(poetry version --short)
 
       - name: Commit if diff
         run: |
           if ! git diff-index --quiet HEAD; then
             git commit -m "Create reports and badges for tests and coverage"
+          fi
+
+      - name: Push if diff
+        run: |
+          if ! git diff-index --quiet HEAD; then
             git push
           fi
