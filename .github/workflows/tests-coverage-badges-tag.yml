@@ -1,4 +1,4 @@
-name: Tests, Coverage, and Badges
+name: Tests, Coverage, Badges, and Tag
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   tests-coverage-badges:
-    name: Tests, Coverage, and Badges
+    name: Tests, Coverage, Badges, and Tag
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -86,11 +86,11 @@ jobs:
           git add reports/
           git add images/
 
-#      - name: Dry-run poetry version patch if project version <= git tag AND FILES WERE MODIFIED
-#        run: |
-#          printf '%s\n' "$(poetry version --short)" "$(git tag -l --sort -version:refname | head -n 1)" | sort -C -V &&
-#          echo "Yes, bump project version to $(poetry version patch --short --dry-run) or run 'poetry version patch'. Project version $(poetry version --short) <= git tag $(git tag -l --sort -version:refname | head -n 1)." ||
-#          echo "No, project version has been bumped. Project version $(poetry version --short) > git tag $(git tag -l --sort -version:refname | head -n 1)."
+      - name: Dry-run poetry version patch if project version <= git tag AND FILES WERE MODIFIED
+        run: |
+          printf '%s\n' "$(poetry version --short)" "$(git tag -l --sort -version:refname | head -n 1)" | sort -C -V &&
+          echo "Yes, bump project version to $(poetry version patch --short --dry-run) or run 'poetry version patch'. Project version $(poetry version --short) <= git tag $(git tag -l --sort -version:refname | head -n 1)." ||
+          echo "No, project version has been bumped. Project version $(poetry version --short) > git tag $(git tag -l --sort -version:refname | head -n 1)."
 
       - name: Dry-run git tag if the tag is less than project version.
         run: |
