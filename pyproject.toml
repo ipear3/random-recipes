@@ -25,6 +25,7 @@ vcs = "git"
 format = "{base}"
 pattern = "default-unprefixed"
 style = "semver"
+fix-shallow-repository = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
