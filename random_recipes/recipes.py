@@ -87,6 +87,6 @@ def random_str(
             population=characters,
             weights=relative_weights,
             cum_weights=cumulative_weights,
-            k=k,  # Example change to attempt auto-tag on change to source code.
+            k=k,
         )
     )
