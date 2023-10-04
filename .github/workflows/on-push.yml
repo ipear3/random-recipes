@@ -1,0 +1,55 @@
+on:
+  push:
+    branches-ignore:
+      # Ignore the following branches because they're protected from merges that haven't already passed this workflow during a pull request.
+      - main
+
+jobs:
+  on-push:
+    name: on-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11.5"
+
+      - name: Get full Python version
+        id: full-python-version
+        run: echo version=$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))") >> $GITHUB_OUTPUT
+
+      - name: Install & configure poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python - -y
+          poetry config virtualenvs.in-project true
+
+      - name: Set up cache
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Ensure cache is healthy
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: |
+          # `timeout` is not available on macOS, so we define a custom function.
+          [ "$(command -v timeout)" ] || function timeout() { perl -e 'alarm shift; exec @ARGV' "$@"; }
+          
+          # Using `timeout` is a safeguard against the Poetry command hanging for some reason.
+          timeout 10s poetry run pip --version || rm -rf .venv
+
+      - name: Check lock file
+        run: poetry check --lock
+
+      - name: Install project
+        run: poetry install --with dev
+
+      - name: Test
+        run: poetry run coverage run -m pytest
+
+      - name: Test Coverage = 100
+        run: poetry run coverage report --fail-under 100
