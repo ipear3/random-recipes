@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "random-recipes"
-version = "0.0.7"
+version = "0.0.0"  # Placeholder convention for dynamic versioning
 description = "Recipes to generate random instances of various types, beyond the scope of random."
 license = "MIT"
 authors = ["Ian Pearthree <52967928+ipear3@users.noreply.github.com>"]
@@ -19,6 +19,13 @@ pytest = "^7.4.2"
 coverage = "^7.3.1"
 genbadge = {extras = ["coverage", "tests"], version = "^1.1.0"}
 
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+format = "{base}"
+pattern = "default-unprefixed"
+style = "semver"
+
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
