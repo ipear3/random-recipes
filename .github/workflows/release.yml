@@ -1,8 +1,6 @@
 on:
   # TODO: What is the best way to trigger a release?
   push:
-    branches:
-      - main
     tags:
       - '*.*.*'
 
@@ -15,10 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Exit if not main branch
-        if: endsWith(github.event.base_ref, 'main') == false
-        run: exit -1
 
       - name: Set up Python
         uses: actions/setup-python@v4
