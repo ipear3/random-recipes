@@ -41,29 +41,29 @@ This project draws inspiration from [more-itertools](https://github.com/more-ite
 ### Packaging & Dependency Management
 Get started with development by installing the project with `dev` and `test` dependency groups via [Poetry](https://python-poetry.org/): `poetry install --with dev`
 
+### Formatting
+
+We format our python code according to [Black](https://black.readthedocs.io/en/stable/).
+We enforce black through a [pre-commit](https://pre-commit.com/) hook defined in [.pre-commit-config.yaml](.pre-commit-config.yaml).
+
 ### Testing
 
-Although tests are automatically run pre-commit, developers must agree to create robust tests.
+We use [pytest](https://github.com/pytest-dev/pytest) for testing, and our tests are located in [/tests](/tests).
+We run our full test suite pre-commit and in the action [on-push](https://github.com/ipear3/random-recipes/actions/workflows/on-push.yml) defined in [.github/workflows/on-push.yml](.github/workflows/on-push.yml).
 
-### Releases
-Releases are triggered automatically by commits to branch `main` with a tag like `*.*.*`, thanks to the [Release action](https://github.com/ipear3/random-recipes/actions/workflows/release.yml).
-The release action is defined in [release.yml](https://github.com/ipear3/random-recipes/blob/main/.github/workflows/release.yml).
+We use [coverage](https://github.com/nedbat/coveragepy) for test coverage, and we assert our test coverage is 100%.
+Test coverage is checked pre-commit and in the action [on-push](https://github.com/ipear3/random-recipes/actions/workflows/on-push.yml).
 
-#### Tags
+### Documentation
+Badges are generated and stored [in the repo](/images/badges) pre-commit by [genbadge](https://smarie.github.io/python-genbadge/).
+- ![tests](images/badges/tests.svg)
+- ![coverage](images/badges/coverage.svg)
 
-Commits tagged like `*.*.*` are the trigger of releases. Eventually, we'd like to automate such tags.
+### Releases, Tagging, and Versioning
+To create a release on [GitHub](https://github.com/ipear3/random-recipes/releases) and [PyPi](https://pypi.org/project/random-recipes/#history), tag a commit like `*.*.*` and merge it to the `main` branch.
 
-### Standards
+Release tagged commits pushed to the `main` branch trigger the [release action](https://github.com/ipear3/random-recipes/actions/workflows/release.yml) defined in [release.yml](https://github.com/ipear3/random-recipes/blob/main/.github/workflows/release.yml).
 
-Project standards are enforced by [pre-commit](https://pre-commit.com/) hooks and [GitHub Actions](https://docs.github.com/en/actions).
-
-| Standard                                                                      | pre-commit                                                                                                           | GitHub Action                                                                                                 |
-|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| Source changes should bump the project version. TRYING DYNAMIC VERSIONING     |                                                                                                                      |                                                                                                               |
-| Code should be formatted by [Black](https://black.readthedocs.io/en/stable/). | [black](https://black.readthedocs.io/en/stable/integrations/source_version_control.html#version-control-integration) |                                                                                                               |
-| Project should have a valid config.                                           | [poetry-check](https://python-poetry.org/docs/master/pre-commit-hooks/#poetry-check)                                 | [tests-coverage-badges](https://github.com/ipear3/random-recipes/actions/workflows/tests-coverage-badges.yml) |
-| `poetry.lock` should be kept up-to-date.                                      | [poetry-lock](https://python-poetry.org/docs/master/pre-commit-hooks/#poetry-check)                                  | [tests-coverage-badges](https://github.com/ipear3/random-recipes/actions/workflows/tests-coverage-badges.yml) |
-| Source changes should pass `pytest`.                                          | `pytest`                                                                                                             | [tests-coverage-badges](https://github.com/ipear3/random-recipes/actions/workflows/tests-coverage-badges.yml) |
-| Test coverage percentage should be 100%.                                      | `coverage`                                                                                                           | [tests-coverage-badges](https://github.com/ipear3/random-recipes/actions/workflows/tests-coverage-badges.yml) |
-| `README.md` should display badges for `tests`, `coverage`.                    | `genbadge`                                                                                                           | [tests-coverage-badges](https://github.com/ipear3/random-recipes/actions/workflows/tests-coverage-badges.yml) |
-| Source changes should be released.                                            |                                                                                                                      | [Release](https://github.com/ipear3/random-recipes/actions/workflows/release.yml)                             |
+We use the [dynamic versioning plugin for Poetry](https://github.com/mtkennerly/poetry-dynamic-versioning) to populate the project version from our release tag during `poetry build` or `poetry publish`.
+This means we delegate responsibility to enforce tag uniqueness to `git`, and tag pattern matching to GitHub Actions.
+This is a nice balance - our workflow is to make one tag, and it propagates where we need it to.
