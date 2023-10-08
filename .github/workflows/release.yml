@@ -8,6 +8,7 @@ on:
       - "random_recipes/**"
       - pyproject.toml
       - poetry.lock
+  workflow_dispatch:
 
 jobs:
   release:
@@ -35,10 +36,10 @@ jobs:
         run: poetry install --with dev
 
       - name: Assert tests pass
-        run: coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml
+        run: poetry run coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml
 
       - name: Assert test coverage is 100%
-        run: coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
+        run: poetry run coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
 
       - name: Build project for distribution
         run: poetry build
