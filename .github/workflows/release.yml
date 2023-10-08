@@ -15,8 +15,7 @@ jobs:
     name: release
     runs-on: ubuntu-latest
     environment: release
-    permissions:
-      contents: write
+    permissions: write-all
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
