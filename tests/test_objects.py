@@ -1,4 +1,4 @@
-from random_recipes import *
+from random_recipes.objects import *
 
 
 class TestRandomBool:

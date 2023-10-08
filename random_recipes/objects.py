@@ -2,10 +2,17 @@
 import collections.abc
 import logging
 import string
+import typing
 from datetime import date, datetime
 from decimal import Decimal
 import random
 import fractions
+
+
+SupportedRandomObjects = typing.Literal[
+    "bool", "bytes", "decimal", "date", "datetime", "int", "float", "fraction", "str"
+]
+supported_random_objects = typing.get_args(SupportedRandomObjects)
 
 
 def random_bool() -> bool:
@@ -51,6 +58,11 @@ def random_datetime(
     return _min + random.random() * (_max - _min)
 
 
+def random_int(_min: int = 0, _max: int = 9):
+    """Generate a random :class:`int`. Alias of `random.randint`."""
+    return random.randint(a=_min, b=_max)
+
+
 def random_float(float_digits: int = 40, int_min: int = 0, int_max: int = 0) -> float:
     """Return a random :class:`float` number `k` digits in length.
 
@@ -62,7 +74,7 @@ def random_float(float_digits: int = 40, int_min: int = 0, int_max: int = 0) -> 
 
 
 def random_fraction(
-    num_min: int = 0, num_max: int = 1, den_min: int = 1, den_max: int = 2
+    num_min: int = 0, num_max: int = 10, den_min: int = 10, den_max: int = 10
 ) -> fractions.Fraction:
     """Return a random :class:`fractions.Fraction`."""
     return fractions.Fraction(
@@ -90,3 +102,16 @@ def random_str(
             k=k,
         )
     )
+
+
+object_names_to_random_function_map: dict[str, typing.Callable[[], object]] = {
+    "bool": random_bool,
+    "bytes": random_bytes,
+    "decimal": random_decimal,
+    "date": random_date,
+    "datetime": random_datetime,
+    "int": random_int,
+    "float": random_float,
+    "fraction": random_fraction,
+    "str": random_str,
+}
