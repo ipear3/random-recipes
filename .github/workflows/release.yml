@@ -1,15 +1,21 @@
+name: release
+
 on:
-  # TODO: What is the best way to trigger a release?
   push:
-    tags:
-      - '*.*.*'
+    branches:
+      - main  # Protected branch. Pushes to main are merge commits that close pull requests.
+    paths:
+      - "random_recipes/**"
+      - pyproject.toml
+      - poetry.lock
 
 jobs:
   release:
     name: release
     runs-on: ubuntu-latest
     environment: release
-    permissions: write-all
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,20 +31,22 @@ jobs:
       - name: Update PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dynamic versioning plugin
-        run: poetry self add "poetry-dynamic-versioning[plugin]"
+      - name: Install project
+        run: poetry install --with dev
+
+      - name: Assert tests pass
+        run: coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml
+
+      - name: Assert test coverage is 100%
+        run: coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
 
       - name: Build project for distribution
         run: poetry build
 
-      - name: Check Version
-        id: check-version
-        run: echo version=$(poetry version --short) >> $GITHUB_OUTPUT
-
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create $(poetry version --short)
+        run: gh release create $(poetry version --short) ./dist/* --generate-notes
 
       - name: Publish to PyPI
         env:

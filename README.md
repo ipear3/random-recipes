@@ -43,27 +43,38 @@ Get started with development by installing the project with `dev` and `test` dep
 
 ### Formatting
 
-We format our python code according to [Black](https://black.readthedocs.io/en/stable/).
+We use [Black](https://black.readthedocs.io/en/stable/) to format our Python code.
 We enforce black through a [pre-commit](https://pre-commit.com/) hook defined in [.pre-commit-config.yaml](.pre-commit-config.yaml).
 
 ### Testing
 
 We use [pytest](https://github.com/pytest-dev/pytest) for testing, and our tests are located in [/tests](/tests).
-We run our full test suite pre-commit and in the action [on-push](https://github.com/ipear3/random-recipes/actions/workflows/on-push.yml) defined in [.github/workflows/on-push.yml](.github/workflows/on-push.yml).
+We run our tests during the pre-push hook, `pytest`.
 
 We use [coverage](https://github.com/nedbat/coveragepy) for test coverage, and we assert our test coverage is 100%.
-Test coverage is checked pre-commit and in the action [on-push](https://github.com/ipear3/random-recipes/actions/workflows/on-push.yml).
+Test coverage is checked during the pre-push hook, `coverage`.
 
 ### Documentation
-Badges are generated and stored [in the repo](/images/badges) pre-commit by [genbadge](https://smarie.github.io/python-genbadge/).
-- ![tests](images/badges/tests.svg)
-- ![coverage](images/badges/coverage.svg)
+
+We use [genbadge](https://smarie.github.io/python-genbadge/) to generate our `tests` and `coverage` [badges](/images/badges).
+Badges are generated during the pre-push hooks `genbdage-tests` and `genbadge-coverage`.
 
 ### Releases, Tagging, and Versioning
-To create a release on [GitHub](https://github.com/ipear3/random-recipes/releases) and [PyPi](https://pypi.org/project/random-recipes/#history), tag a commit like `*.*.*` and merge it to the `main` branch.
+Releases are automatically versioned by the poetry project's version in `pyproject.toml`.
+Developers are responsible for incrementing the project version manually when they modify source code.
+If they forget, the pre-push hook, `poetry-auto-semver` will increment the patch version by 1.
 
-Release tagged commits pushed to the `main` branch trigger the [release action](https://github.com/ipear3/random-recipes/actions/workflows/release.yml) defined in [release.yml](https://github.com/ipear3/random-recipes/blob/main/.github/workflows/release.yml).
+To create a release on [GitHub](https://github.com/ipear3/random-recipes/releases) and [PyPi](https://pypi.org/project/random-recipes/#history), push a commit to the `main` branch that affects any of the paths:
+  - `random_recipes/**`
+  - `pyproject.toml`
+  - `poetry.lock`
 
-We use the [dynamic versioning plugin for Poetry](https://github.com/mtkennerly/poetry-dynamic-versioning) to populate the project version from our release tag during `poetry build` or `poetry publish`.
-This means we delegate responsibility to enforce tag uniqueness to `git`, and tag pattern matching to GitHub Actions.
-This is a nice balance - our workflow is to make one tag, and it propagates where we need it to.
+The [release action](https://github.com/ipear3/random-recipes/actions/workflows/release.yml) will automatically:
+1. Install the project
+2. Test the project
+3. Assert test coverage is 100%
+4. Build the project for distribution
+5. Create a GitHub release
+   1. Autogenerate release notes
+   2. Upload distribution files
+6. Publish the project to PyPi

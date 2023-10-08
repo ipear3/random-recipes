@@ -1,3 +1,6 @@
+default_install_hook_types:
+    - pre-commit
+    - pre-push
 default_language_version:
   python: python3.11
 fail_fast: true
@@ -11,6 +14,11 @@ repos:
     hooks:
       - id: poetry-check
       - id: poetry-lock
+  - repo: https://github.com/ipear3/pre-commit-hook-poetry-auto-semver
+    rev: 0.0.3
+    hooks:
+      - id: poetry-auto-semver
+        files: random_recipes.*|poetry.lock|pyproject.toml
   - repo: local
     hooks:
       - id: pytest
@@ -19,35 +27,43 @@ repos:
         entry: coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml
         language: python
         pass_filenames: false
-        files: random_recipes.*|requirements\.txt|test.*
+        files: random_recipes.*|poetry.lock|pyproject.toml|test.*
         additional_dependencies:
           - pytest
           - coverage
+        stages:
+          - pre-push
       - id: coverage
         name: coverage
         description: Run coverage to ensure test coverage is 100% and coverage.xml was created in reports/.
         language: python
         pass_filenames: false
-        files: random_recipes.*|requirements\.txt|test.*
+        files: random_recipes.*|poetry.lock|pyproject.toml|test.*
         additional_dependencies:
           - pytest
           - coverage
         entry: coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
+        stages:
+          - pre-push
       - id: genbadge-tests
         name: genbadge tests
         description: Run genbadge tests to generate our tests badge image.
         language: python
         pass_filenames: false
-        files: random_recipes.*|requirements\.txt|test.*
+        files: random_recipes.*|poetry.lock|pyproject.toml|test.*
         additional_dependencies:
           - genbadge[tests]
         entry: genbadge tests -i reports/tests.xml -o images/badges/tests.svg
+        stages:
+          - pre-push
       - id: genbadge-coverage
         name: genbadge coverage
         description: Run genbadge coverage to generate our coverage badge image.
         language: python
         pass_filenames: false
-        files: random_recipes.*|requirements\.txt|test.*
+        files: random_recipes.*|poetry.lock|pyproject.toml|test.*
         additional_dependencies:
           - genbadge[coverage]
         entry: genbadge coverage -i reports/coverage.xml -o images/badges/coverage.svg
+        stages:
+          - pre-push
