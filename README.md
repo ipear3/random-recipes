@@ -67,7 +67,7 @@ We enforce black through a [pre-commit](https://pre-commit.com/) hook defined in
 We use [pytest](https://github.com/pytest-dev/pytest) for testing, and our tests are located in [/tests](/tests).
 We run our tests during the pre-push hook, `pytest`.
 
-We use [coverage](https://github.com/nedbat/coveragepy) for test coverage, and we assert our test coverage is 100%.
+We use [coverage](https://github.com/nedbat/coveragepy) for test coverage, and we assert our test coverage is 95%.
 Test coverage is checked during the pre-push hook, `coverage`.
 
 ### Documentation
@@ -88,7 +88,7 @@ To create a release on [GitHub](https://github.com/ipear3/random-recipes/release
 The [release action](https://github.com/ipear3/random-recipes/actions/workflows/release.yml) will automatically:
 1. Install the project
 2. Test the project
-3. Assert test coverage is 100%
+3. Assert test coverage is 95%
 4. Build the project for distribution
 5. Create a GitHub release
    1. Autogenerate release notes

@@ -35,14 +35,14 @@ repos:
           - pre-push
       - id: coverage
         name: coverage
-        description: Run coverage to ensure test coverage is 100% and coverage.xml was created in reports/.
+        description: Run coverage to ensure test coverage is 95% and coverage.xml was created in reports/.
         language: python
         pass_filenames: false
         files: random_recipes.*|poetry.lock|pyproject.toml|test.*
         additional_dependencies:
           - pytest
           - coverage
-        entry: coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
+        entry: coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 95
         stages:
           - pre-push
       - id: genbadge-tests

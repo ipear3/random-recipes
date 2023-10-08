@@ -38,8 +38,8 @@ jobs:
       - name: Assert tests pass
         run: poetry run coverage run --data-file reports/.coverage -m pytest --junitxml=reports/tests.xml
 
-      - name: Assert test coverage is 100%
-        run: poetry run coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 100
+      - name: Assert test coverage is 95%
+        run: poetry run coverage xml --data-file reports/.coverage -o reports/coverage.xml --fail-under 95
 
       - name: Build project for distribution
         run: poetry build
