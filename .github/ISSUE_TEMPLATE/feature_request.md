@@ -3,6 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: "[Feature Request]"
 labels: enhancement
+projects: ["ipear3/3"]
 assignees: ''
 
 ---
